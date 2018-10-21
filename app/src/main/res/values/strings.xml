@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Differential Graph Plotter</string>
+    <string name="not_match_length">Lengths are not similar</string>
+    <string name="not_match_x">X are not similar</string>
+    <string name="plot_name">Plots of Numerical Methods</string>
+    <string name="error_name">Errors of Numerical Methods</string>
 </resources>
