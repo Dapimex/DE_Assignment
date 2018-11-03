@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
-        step = findViewById(R.id.step);
+        step = findViewById(R.id.steps);
         x0 = findViewById(R.id.x0);
         y0 = findViewById(R.id.y0);
         x_fin = findViewById(R.id.x_fin);

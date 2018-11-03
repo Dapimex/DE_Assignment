@@ -24,7 +24,7 @@
         </ScrollView>
 
         <EditText
-            android:id="@+id/step"
+            android:id="@+id/steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -32,40 +32,40 @@
             android:layout_marginStart="151dp"
             android:layout_marginTop="99dp"
             android:ems="10"
-            android:inputType="number|numberDecimal" />
+            android:inputType="number|numberDecimal|numberSigned" />
 
         <EditText
             android:id="@+id/x0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/step"
+            android:layout_alignStart="@+id/steps"
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="162dp"
             android:ems="10"
-            android:inputType="number|numberDecimal" />
+            android:inputType="number|numberDecimal|numberSigned" />
 
         <EditText
             android:id="@+id/y0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/step"
+            android:layout_alignEnd="@+id/steps"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="224dp"
             android:ems="10"
-            android:inputType="number|numberDecimal" />
+            android:inputType="number|numberDecimal|numberSigned" />
 
         <EditText
             android:id="@+id/x_fin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/step"
+            android:layout_alignEnd="@+id/steps"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="0dp"
             android:layout_marginBottom="165dp"
             android:ems="10"
-            android:inputType="number|numberDecimal" />
+            android:inputType="number|numberDecimal|numberSigned" />
 
         <TextView
             android:id="@+id/stepText"
@@ -76,9 +76,9 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="105dp"
             android:fontFamily="sans-serif"
-            android:text="Step: "
+            android:text="@string/steps"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            tools:text="Step: " />
+            tools:text="Steps: " />
 
         <TextView
             android:id="@+id/x0Text"
@@ -86,9 +86,9 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/stepText"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="166dp"
-            android:layout_marginEnd="28dp"
-            android:text="x0:"
+            android:layout_marginTop="172dp"
+            android:layout_marginEnd="41dp"
+            android:text="@string/x0"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             tools:text="x0:" />
 
@@ -99,7 +99,7 @@
             android:layout_alignStart="@+id/stepText"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="227dp"
-            android:text="y0:"
+            android:text="@string/y0"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             tools:text="y0:" />
 
@@ -109,9 +109,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="38dp"
-            android:layout_marginBottom="171dp"
-            android:text="X:"
+            android:layout_marginStart="41dp"
+            android:layout_marginBottom="170dp"
+            android:text="@string/x"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             tools:text="X:" />
 
@@ -123,7 +123,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="67dp"
-            android:onClick="start"
-            android:text="Show Graph" />
+            android:text="@string/show_graph" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -4,4 +4,9 @@
     <string name="not_match_x">X are not similar</string>
     <string name="plot_name">Plots of Numerical Methods</string>
     <string name="error_name">Errors of Numerical Methods</string>
+    <string name="show_graph">Show Graph</string>
+    <string name="x">X:</string>
+    <string name="steps">Steps:</string>
+    <string name="x0">x0:</string>
+    <string name="y0">y0:</string>
 </resources>
