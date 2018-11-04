@@ -9,4 +9,8 @@
     <string name="steps">Steps:</string>
     <string name="x0">x0:</string>
     <string name="y0">y0:</string>
+    <string name="glEuler">Euler Global Error</string>
+    <string name="glImpEuler">Improved Euler Global Error</string>
+    <string name="glRunge">Runge-Kutta Global Error</string>
+    <string name="global_error_name">Global Error Graph</string>
 </resources>

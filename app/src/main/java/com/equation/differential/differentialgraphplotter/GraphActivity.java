@@ -16,6 +16,7 @@ public class GraphActivity extends AppCompatActivity {
 
     GraphView plotter;
     GraphView error;
+    GraphView globalError;
 
     ArrayList<DataPoint> dataPoints;
 
@@ -32,6 +33,7 @@ public class GraphActivity extends AppCompatActivity {
     LineGraphSeries<DataPoint> errorRunge;
 
     private double step;
+    private int steps;
     private double x0;
     private double y0;
     private double x_fin;
@@ -44,9 +46,11 @@ public class GraphActivity extends AppCompatActivity {
             x0 = Double.parseDouble(getIntent().getSerializableExtra("x0").toString());
             y0 = Double.parseDouble(getIntent().getSerializableExtra("y0").toString());
             x_fin = Double.parseDouble(getIntent().getSerializableExtra("x_fin").toString());
-            step = (x_fin - x0)/Double.parseDouble(getIntent().getSerializableExtra("step").toString());
+            steps = Integer.parseInt(getIntent().getSerializableExtra("step").toString());
+            step = (x_fin - x0)/steps;
             dataPoints = new ArrayList<>();
             createGraph();
+            createGlobalGraph();
         }catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -59,12 +63,9 @@ public class GraphActivity extends AppCompatActivity {
         DataPoint[] dp2 = impEuler(x0, y0, x_fin, step);
         DataPoint[] dp3 = runge(x0, y0, x_fin, step);
         DataPoint[] exactDP = exactGraph(x0, y0, x_fin, step);
-        DataPoint[] exactEuler = exactGraph(dp);
-        DataPoint[] exactImpEuler = exactGraph(dp2);
-        DataPoint[] exactRunge = exactGraph(dp3);
-        DataPoint[] er = error(dp, exactEuler);
-        DataPoint[] er2 = error(dp2, exactImpEuler);
-        DataPoint[] er3 = error(dp3, exactRunge);
+        DataPoint[] er = error(dp, exactDP);
+        DataPoint[] er2 = error(dp2, exactDP);
+        DataPoint[] er3 = error(dp3, exactDP);
 
         euler = new LineGraphSeries<>(dp);
         impEuler = new LineGraphSeries<>(dp2);
@@ -124,6 +125,65 @@ public class GraphActivity extends AppCompatActivity {
         error.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
     }
 
+    private void createGlobalGraph() {
+        DataPoint[] globalEuler = new DataPoint[steps];
+        DataPoint[] globalImpEuler = new DataPoint[steps];
+        DataPoint[] globalRunge = new DataPoint[steps];
+
+        for (int i = 0; i < steps; i++) {
+            double init_step = (x_fin - x0)/(i+1);
+
+            DataPoint[] euler = euler(x0, y0, x_fin, init_step);
+            DataPoint[] impEuler = impEuler(x0, y0, x_fin, init_step);
+            DataPoint[] runge = runge(x0, y0, x_fin, init_step);
+            DataPoint[] exact = exactGraph(x0, y0, x_fin, init_step);
+
+            DataPoint[] errorEuler = error(euler, exact);
+            DataPoint[] errorImpEuler = error(euler, exact);
+            DataPoint[] errorRunge = error(euler, exact);
+
+            globalEuler[i] = new DataPoint((i + 1), globalError(errorEuler));
+            globalImpEuler[i] = new DataPoint((i + 1), globalError(errorImpEuler));
+            globalRunge[i] = new DataPoint((i + 1), globalError(errorRunge));
+        }
+
+        LineGraphSeries<DataPoint> glEuler = new LineGraphSeries<>(globalEuler);
+        LineGraphSeries<DataPoint> glImpEuler = new LineGraphSeries<>(globalImpEuler);
+        LineGraphSeries<DataPoint> glRunge = new LineGraphSeries<>(globalRunge);
+
+        glEuler.setTitle(getResources().getString(R.string.glEuler));
+        glImpEuler.setTitle(getResources().getString(R.string.glImpEuler));
+        glRunge.setTitle(getResources().getString(R.string.glRunge));
+
+        glEuler.setColor(Color.RED);
+        glImpEuler.setColor(Color.GREEN);
+        glRunge.setColor(Color.BLUE);
+
+        globalError = findViewById(R.id.gl_error);
+        globalError.setTitle(getResources().getString(R.string.global_error_name));
+
+        globalError.addSeries(glEuler);
+        globalError.addSeries(glImpEuler);
+        globalError.addSeries(glRunge);
+
+        globalError.getViewport().setScalable(true);
+        globalError.getViewport().setScalableY(true);
+        globalError.getViewport().setScrollable(true);
+        globalError.getViewport().setScrollableY(true);
+
+
+        globalError.getLegendRenderer().setVisible(true);
+        globalError.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+    }
+
+    private double globalError(DataPoint[] error) {
+        double res = 0;
+        for (DataPoint e:error) {
+            res += e.getY();
+        }
+        return res/error.length;
+    }
+
     /**
      * Solving initial value problem (according to exact solution)
      * @param x initial value of x
@@ -151,7 +211,7 @@ public class GraphActivity extends AppCompatActivity {
      * @return y in that point
      */
     private double exact_solution(double x,  double c) {
-        return x*Math.sqrt(c + Math.log(x));
+        return x*Math.sqrt(c + 2*Math.log(x));
     }
 
     /**
@@ -206,14 +266,6 @@ public class GraphActivity extends AppCompatActivity {
         DataPoint[] res = new DataPoint[dataPoints.size()];
         for (int i = 0; i < dataPoints.size(); i++) res[i] = dataPoints.get(i);
 
-        return res;
-    }
-    private DataPoint[] exactGraph(DataPoint[] method) {
-        DataPoint[] res = new DataPoint[method.length];
-        double c = ivp(method[0].getX(), method[0].getY());
-        for (int i = 0; i < method.length; i++) {
-            res[i] = new DataPoint(method[i].getX(), exact_solution(method[i].getX(), c));
-        }
         return res;
     }
     private DataPoint[] exactGraph(Double x0, Double y0, double x_fin, double step) {
