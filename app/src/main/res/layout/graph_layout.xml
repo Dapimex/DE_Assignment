@@ -16,22 +16,22 @@
                 android:id="@+id/plotter"
                 android:layout_marginRight="50dp"
                 android:layout_width="match_parent"
-                android:layout_marginTop="60dp"
-                android:layout_height="200dp" />
+                android:layout_marginTop="15dp"
+                android:layout_height="180dp" />
 
             <com.jjoe64.graphview.GraphView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="50dp"
+                android:layout_height="180dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="50dp"
                 android:id="@+id/error"/>
 
             <com.jjoe64.graphview.GraphView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:layout_marginRight="50dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
                 android:id="@+id/gl_error"/>
         </LinearLayout>
     </ScrollView>

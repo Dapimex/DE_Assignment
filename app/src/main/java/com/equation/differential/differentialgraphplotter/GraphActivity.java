@@ -21,11 +21,8 @@ public class GraphActivity extends AppCompatActivity {
     ArrayList<DataPoint> dataPoints;
 
     LineGraphSeries<DataPoint> euler;
-
     LineGraphSeries<DataPoint> impEuler;
-
     LineGraphSeries<DataPoint> runge;
-
     LineGraphSeries<DataPoint> exact;
 
     LineGraphSeries<DataPoint> errorEuler;
@@ -57,7 +54,9 @@ public class GraphActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * method for creating main graph and local error graph
+     */
     private void createGraph() {
         DataPoint[] dp = euler(x0, y0, x_fin, step);
         DataPoint[] dp2 = impEuler(x0, y0, x_fin, step);
@@ -125,6 +124,9 @@ public class GraphActivity extends AppCompatActivity {
         error.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
     }
 
+    /**
+     * method for creating global error graph
+     */
     private void createGlobalGraph() {
         DataPoint[] globalEuler = new DataPoint[steps];
         DataPoint[] globalImpEuler = new DataPoint[steps];
@@ -139,8 +141,8 @@ public class GraphActivity extends AppCompatActivity {
             DataPoint[] exact = exactGraph(x0, y0, x_fin, init_step);
 
             DataPoint[] errorEuler = error(euler, exact);
-            DataPoint[] errorImpEuler = error(euler, exact);
-            DataPoint[] errorRunge = error(euler, exact);
+            DataPoint[] errorImpEuler = error(impEuler, exact);
+            DataPoint[] errorRunge = error(runge, exact);
 
             globalEuler[i] = new DataPoint((i + 1), globalError(errorEuler));
             globalImpEuler[i] = new DataPoint((i + 1), globalError(errorImpEuler));
@@ -176,6 +178,11 @@ public class GraphActivity extends AppCompatActivity {
         globalError.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
     }
 
+    /**
+     * finds average value of error in local error function
+     * @param error graph of local error for some step
+     * @return average value of error (y-axis in point of global error graph)
+     */
     private double globalError(DataPoint[] error) {
         double res = 0;
         for (DataPoint e:error) {
@@ -211,7 +218,8 @@ public class GraphActivity extends AppCompatActivity {
      * @return y in that point
      */
     private double exact_solution(double x,  double c) {
-        return x*Math.sqrt(c + 2*Math.log(x));
+        if (y0 > 0) return x*Math.sqrt(c + 2*Math.log(x));
+        else return -x*Math.sqrt(c + 2*Math.log(x));
     }
 
     /**
